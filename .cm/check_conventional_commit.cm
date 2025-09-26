@@ -1,0 +1,34 @@
+triggers:
+  exclude:
+    branch:
+      - r/dependabot/
+
+automations:
+  check_pr_conventional_commit:
+    if:
+      - {{ branch | checkConventionalCommit }}
+    run:
+      - action: add-comment@v1
+        args:
+          comment: |
+            **Conventional Commits required**
+            One or more commits in this PR don’t follow the Conventional Commits spec.
+
+            **Subject format**
+            ```
+            type(scope)?: short summary
+            ```
+            Allowed types: `feat`, `fix`, `docs`, `style`, `refactor`, `perf`, `test`, `build`, `ci`, `chore`, `revert`
+
+            **Rules**
+            - Subject line ≤ 72 characters
+            - Optional `scope` in parentheses
+            - Optional `!` if the change is breaking
+            - Alternatively, include a `BREAKING CHANGE:` footer (either `!` or the footer is acceptable)
+
+            See the spec: https://www.conventionalcommits.org/en/v1.0.0/
+
+      - action: request-changes@v1
+        args:
+          comment: |
+            Please fix the non-compliant commit messages (or squash and use a compliant PR title).
