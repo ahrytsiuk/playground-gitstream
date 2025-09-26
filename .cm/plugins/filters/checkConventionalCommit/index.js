@@ -1,3 +1,11 @@
+/**
+ * @module checkConventionalCommit
+ * @description A gitStream plugin to check if commits in branch are conventional.
+ * @param {Object} branch - The current branch object.
+ * @returns {boolean} Returns true if commits are conventional., otherwise false.
+ * @example {{ branch | checkConventionalCommit }}
+ * @license MIT
+ **/
 async function checkConventionalCommit(branch) {
 
   return branch.commits.messages
