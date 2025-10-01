@@ -19,7 +19,7 @@ async function checkConventionalCommit(branch) {
   });
 }
 
-module.exports = {filter: checkConventionalCommit, async: true};
+module.exports = checkConventionalCommit
 
 
 // const cc = require('./index.js');
