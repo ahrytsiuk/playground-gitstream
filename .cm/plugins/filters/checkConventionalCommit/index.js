@@ -10,6 +10,10 @@ async function checkConventionalCommit(branch) {
 
   console.log("Branch Object" + JSON.stringify(branch));
 
+  for (const message of branch.commits.messages) {
+    console.log("Commit Message: " + message);
+  }
+
   return branch.commits.messages
   .filter((message) => !message.includes("Merge branch"))
   .every((message) => {
