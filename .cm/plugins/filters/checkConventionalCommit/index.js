@@ -3,12 +3,15 @@
  * @description A gitStream plugin to check if commits in branch are conventional.
  * @param {Object} branch - The current branch object.
  * @param {Object} pr - The pr context variable.
+ * @param {String} tkn - The token.
  * @returns {boolean} Returns true if commits are conventional., otherwise false.
  * @example {{ branch | checkConventionalCommit }}
  * @license MIT
  **/
-async function checkConventionalCommit(branch, pr) {
+async function checkConventionalCommit(branch, pr, tkn) {
 
+
+  console.log("Tkn" + tkn);
   console.log("PR Object" + JSON.stringify(pr));
 
   console.log("Branch Object" + JSON.stringify(branch));

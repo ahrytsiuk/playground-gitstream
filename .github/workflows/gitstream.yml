@@ -4,6 +4,8 @@ name: gitStream workflow automation
 run-name: |
   /:\ gitStream: PR #${{ fromJSON(fromJSON(github.event.inputs.client_payload)).pullRequestNumber }} from ${{ github.event.inputs.full_repository }}
 
+
+
 on:
   workflow_dispatch:
     inputs:
@@ -51,3 +53,5 @@ jobs:
           installation_id: ${{ github.event.inputs.installation_id }}
           resolver_url: ${{ github.event.inputs.resolver_url }}
           resolver_token: ${{ github.event.inputs.resolver_token }}
+    env:
+      SEC_TOKEN: ${{ secrets.SEC_TOKEN }}
