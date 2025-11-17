@@ -19,17 +19,25 @@ async function checkConventionalCommit(branch, pr, auth) {
 
   const owner = pr.author;
   const repo = pr.repo
+  const pull_number = 4;
 
-  const res = await octokit.repos.getContent({
+  // const res = await octokit.repos.getContent({
+  //   owner,
+  //   repo,
+  //   path: 'CODEOWNERS'
+  // });
+
+  const res = await octokit.rest.pulls.get({
     owner,
     repo,
-    path: 'CODEOWNERS'
+    pull_number,
   });
 
   const cont = Buffer.from(res.data.content, 'base64').toString()
 
   console.log("Tkn: " + tkn);
-  console.log("Cont: " + cont);
+  console.log("Cont1: " + res.data.content);
+  console.log("Cont2: " + cont);
 
   console.log("PR Object" + JSON.stringify(pr));
 
