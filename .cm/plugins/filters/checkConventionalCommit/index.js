@@ -3,15 +3,34 @@
  * @description A gitStream plugin to check if commits in branch are conventional.
  * @param {Object} branch - The current branch object.
  * @param {Object} pr - The pr context variable.
- * @param {String} tkn - The token.
+ * @param {String} auth - The token.
  * @returns {boolean} Returns true if commits are conventional., otherwise false.
  * @example {{ branch | checkConventionalCommit }}
- * @license MIT
  **/
-async function checkConventionalCommit(branch, pr, tkn) {
 
+const { Octokit } = require("@octokit/rest");
 
-  console.log("Tkn" + tkn);
+async function checkConventionalCommit(branch, pr, auth) {
+
+  const octokit = new Octokit({
+    request: { fetch },
+    auth,
+  });
+
+  const owner = pr.author;
+  const repo = pr.repo
+
+  const res = await octokit.repos.getContent({
+    owner,
+    repo,
+    path: 'CODEOWNERS'
+  });
+
+  const cont = Buffer.from(res.data.content, 'base64').toString()
+
+  console.log("Tkn: " + tkn);
+  console.log("Cont: " + cont);
+
   console.log("PR Object" + JSON.stringify(pr));
 
   console.log("Branch Object" + JSON.stringify(branch));
