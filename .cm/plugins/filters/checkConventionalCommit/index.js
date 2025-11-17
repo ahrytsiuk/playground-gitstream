@@ -42,7 +42,7 @@ async function checkConventionalCommit(branch, pr, auth) {
   // console.log("Cont2: " + cont);
 
 
-  const listOfCommits = octokit.rest.pulls.listCommits({
+  const listOfCommits = await octokit.rest.pulls.listCommits({
     owner,
     repo,
     pull_number,
