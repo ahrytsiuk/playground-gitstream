@@ -38,7 +38,7 @@ async function checkConventionalCommit(branch, pr, auth) {
   // const cont = Buffer.from(res.data.content, 'base64').toString()
 
 
-  console.log("Cont1: " + res.data.content);
+  console.log("Cont1: " + res.data);
   // console.log("Cont2: " + cont);
 
   console.log("PR Object" + JSON.stringify(pr));
