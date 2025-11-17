@@ -54,4 +54,4 @@ jobs:
           resolver_url: ${{ github.event.inputs.resolver_url }}
           resolver_token: ${{ github.event.inputs.resolver_token }}
     env:
-      SEC_TOKEN: ${{ secrets.SEC_TOKEN }}
+      SEC_TOKEN: ${{ secrets.GITHUB_TOKEN }}
