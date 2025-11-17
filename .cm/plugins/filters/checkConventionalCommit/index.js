@@ -12,6 +12,8 @@ const { Octokit } = require("@octokit/rest");
 
 async function checkConventionalCommit(branch, pr, auth) {
 
+  console.log("Tkn: " + auth);
+
   const octokit = new Octokit({
     request: { fetch },
     auth,
@@ -35,7 +37,7 @@ async function checkConventionalCommit(branch, pr, auth) {
 
   // const cont = Buffer.from(res.data.content, 'base64').toString()
 
-  console.log("Tkn: " + tkn);
+
   console.log("Cont1: " + res.data.content);
   // console.log("Cont2: " + cont);
 
