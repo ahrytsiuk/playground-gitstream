@@ -29,7 +29,7 @@ async function checkConventionalCommit(branch, pr, auth) {
   //   path: 'CODEOWNERS'
   // });
 
-  const res = await octokit.rest.pulls.get({
+  const pullRequesrResp = await octokit.rest.pulls.get({
     owner,
     repo,
     pull_number,
@@ -38,10 +38,19 @@ async function checkConventionalCommit(branch, pr, auth) {
   // const cont = Buffer.from(res.data.content, 'base64').toString()
 
 
-  console.log("Cont1: " + JSON.stringify(res.data));
+  console.log("Cont1: " + JSON.stringify(pullRequesrResp.data));
   // console.log("Cont2: " + cont);
 
+
+  const listOfCommits = octokit.rest.pulls.listCommits({
+    owner,
+    repo,
+    pull_number,
+  });
+
   console.log("PR Object" + JSON.stringify(pr));
+
+  console.log("Cont2: " + JSON.stringify(listOfCommits));
 
   console.log("Branch Object" + JSON.stringify(branch));
 
