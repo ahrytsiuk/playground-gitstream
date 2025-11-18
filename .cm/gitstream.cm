@@ -4,80 +4,32 @@
 manifest:
   version: 1.0
 
-
 automations:
 
-  check_pr_conventional_commit:
+  lint_pr:
     if:
-      - {{ not (  lint.pull_request.isValid  ) }}
+      - {{ lint.pull_request.hasErrors }}
     run:
       - action: add-comment@v1
         args:
           comment: |
             **PR Lint Failed**
             
-            {% if lint.pull_request.hasValidTitle %}
-              Title is valid.
-            {% else %}
-              Title must follow Conventional Commit format. Example: `feat: add new payment method`
+            {% if not lint.pull_request.hasValidTitle %}
+              PRs title don’t follow the Conventional Commits spec.
             {% endif %}
+            
+            See the spec: https://www.conventionalcommits.org/en/v1.0.0/
 
       - action: request-changes@v1
         args:
           comment: |
             Please fix PR title and/or commit messages.
 
-  # Inform PR authors when they fail to reference Jira tickets in the PR title or description.
-#  label_missing_jira_info:
-#    if:
-#      - {{ not (has.jira_ticket_in_title or has.jira_ticket_in_desc) }}
-#    run:
-#      - action: add-label@v1
-#        args:
-#          label: "missing-jira"
-#          color: {{ colors.red }}
-#      - action: add-comment@v1
-#        args:
-#          comment: |
-#            This PR is missing a Jira ticket reference in the title or description.
-#            Please add a Jira ticket reference to the title or description of this PR.
-
-  # Post a comment that lists the best experts for the files that were modified.
-#  explain_code_experts:
-#    if:
-#      - true
-#    run:
-#      - action: explain-code-experts@v1
-#        args:
-#          gt: 10
-
-
 # +----------------------------------------------------------------------------+
 # | Custom Expressions                                                         |
 # | https://docs.gitstream.cm/how-it-works/#custom-expressions                 |
 # +----------------------------------------------------------------------------+
 
-calc:
-  etr: {{ branch | estimatedReviewTime }}
-  safe_changes: {{ is.formatting or is.docs or is.tests or is.image }}
-  commits_conventional: {{ branch | checkConventionalCommit(pr, env.SEC_TOKEN) }}
-
 lint:
   pull_request: {{ branch | lintPullRequest(pr, env.SEC_TOKEN) }}
-
-#has:
-#  jira_ticket_in_title: {{ pr.title | includes(regex=r/\b[A-Za-z]+-\d+\b/) }}
-#  jira_ticket_in_desc: {{ pr.description | includes(regex=r/atlassian.net\/browse\/\w{1,}-\d{3,4}/) }}
-
-colors:
-  red: 'b60205'
-  yellow: 'fbca04'
-  green: '0e8a16'
-
-is:
-  formatting: {{ source.diff.files | isFormattingChange }}
-  docs: {{ files | allDocs }}
-  tests: {{ files | allTests }}
-  image: {{ files | allImages }}
-  bot_author: {{ pr.author | match(list=['github-actions', '_bot_', '[bot]', 'dependabot']) | some }}
-  bot_branch: {{ branch.name | match(list=['renovate/']) | some }}
