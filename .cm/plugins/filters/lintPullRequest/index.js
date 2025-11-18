@@ -8,10 +8,10 @@ async function lintPullRequest(branch, pr, ghToken, callback) {
   });
 
   let hasValidTitle = pr.title.match(/^(feat|fix|chore|docs|style|refactor|perf|test|build|ci):/);
-  let isValid = hasValidTitle;
+  let hasErrors = !hasValidTitle;
 
   const result = {
-    isValid,
+    hasErrors,
     hasValidTitle
   }
 
