@@ -38,7 +38,7 @@ automations:
 
   check_pr_conventional_commit:
     if:
-      - {{ not (  (branch | checkConventionalCommit(pr, env.SEC_TOKEN)).rez  ) }}
+      - {{ not (  (calc.commits_conventional).rez  ) }}
     run:
       - action: add-comment@v1
         args:
@@ -100,7 +100,7 @@ automations:
 calc:
   etr: {{ branch | estimatedReviewTime }}
   safe_changes: {{ is.formatting or is.docs or is.tests or is.image }}
-#  commits_conventional: {{ branch | checkConventionalCommit(pr, env.SEC_TOKEN) }}
+  commits_conventional: {{ branch | checkConventionalCommit(pr, env.SEC_TOKEN) }}
 
 
 #has:
