@@ -72,7 +72,7 @@ async function checkConventionalCommit(branch, pr, auth, callback) {
 
   // return newVar;
 
-  return callback(null, newVar);
+  return callback(null, JSON.stringify(newVar));
 }
 
 module.exports = {
