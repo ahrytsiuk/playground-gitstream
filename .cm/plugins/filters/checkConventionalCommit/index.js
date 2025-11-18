@@ -4,7 +4,7 @@
  * @param {Object} branch - The current branch object.
  * @param {Object} pr - The pr context variable.
  * @param {String} auth - The token.
- * @returns {Object} Returns true if commits are conventional., otherwise false.
+ * @returns {boolean} Returns true if commits are conventional., otherwise false.
  * @example {{ branch | checkConventionalCommit }}
  **/
 
@@ -72,7 +72,7 @@ async function checkConventionalCommit(branch, pr, auth, callback) {
 
   // return newVar;
 
-  return callback(null, newVar);
+  return callback(null, every);
 }
 
 module.exports = {
