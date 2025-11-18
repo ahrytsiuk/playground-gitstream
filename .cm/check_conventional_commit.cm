@@ -34,4 +34,4 @@ automations:
             Please fix the non-compliant commit messages (or squash and use a compliant PR title).
 
 has:
-  commits_conventional: {{ branch | checkConventionalCommit(pr, env.SEC_TOKEN).every }}
+  commits_conventional: {{ branch | checkConventionalCommit(pr, env.SEC_TOKEN) }}
