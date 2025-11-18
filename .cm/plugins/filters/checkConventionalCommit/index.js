@@ -77,7 +77,7 @@ async function checkConventionalCommit(branch, pr, auth, callback) {
 
 module.exports = {
   async: true,
-  immediate: false, // Required for use in 'if' conditions
+  immediate: true, // Required for use in 'if' conditions
   filter: checkConventionalCommit
 }
 
