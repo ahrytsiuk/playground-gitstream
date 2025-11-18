@@ -69,7 +69,11 @@ async function checkConventionalCommit(branch, pr, auth) {
   return {every: every, str: 's'};
 }
 
-module.exports = checkConventionalCommit
+module.exports = {
+  async: true,
+  immediate: true, // Required for use in 'if' conditions
+  filter: checkConventionalCommit
+}
 
 
 // const cc = require('./index.js');
