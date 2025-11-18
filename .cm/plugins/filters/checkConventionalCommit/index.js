@@ -4,7 +4,7 @@
  * @param {Object} branch - The current branch object.
  * @param {Object} pr - The pr context variable.
  * @param {String} auth - The token.
- * @returns {boolean} Returns true if commits are conventional., otherwise false.
+ * @returns {Object} Returns true if commits are conventional., otherwise false.
  * @example {{ branch | checkConventionalCommit }}
  **/
 
@@ -59,13 +59,14 @@ async function checkConventionalCommit(branch, pr, auth) {
     console.log("Commit Message: " + message);
   }
 
-  return branch.commits.messages
+  let every = branch.commits.messages
   .filter((message) => !message.includes("Merge branch"))
   .every((message) => {
     return message.match(
         /^(feat|fix|chore|docs|style|refactor|perf|test|build|ci):/,
     )
   });
+  return {every: every, str: 's'};
 }
 
 module.exports = checkConventionalCommit
