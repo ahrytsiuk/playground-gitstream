@@ -38,7 +38,7 @@ automations:
 
   check_pr_conventional_commit:
     if:
-      - {{ not (calc.commits_conventional | attr('every')) }}
+      - {{ not (calc.commits_conventional | .every)) }}
     run:
       - action: add-comment@v1
         args:
