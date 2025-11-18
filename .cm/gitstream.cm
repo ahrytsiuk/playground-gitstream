@@ -7,65 +7,25 @@ manifest:
 
 automations:
 
-  # Use LinearB's AI service to review the changes
-#  linearb_ai_review:
-#    if:
-#      - {{ not (pr.draft or is.bot) }}
-#    run:
-#      - action: code-review@v1
-#        args:
-#          approve_on_LGTM: {{ calc.safe_changes }}
-
-
-  # Use LinearB's AI service to add a description to the PR
-  linearb_ai_description:
-    if:
-      - {{ not (pr.draft or is.bot_author) }}
-    run:
-      - action: describe-changes@v1
-        args:
-          concat_mode: append
-
-  # Add a label indicating how long it will take to review the PR.
-  estimated_time_to_review:
-    if:
-      - true
-    run:
-      - action: add-label@v1
-        args:
-          label: "{{ calc.etr }} min review"
-          color: {{ colors.red if (calc.etr >= 20) else ( colors.yellow if (calc.etr >= 5) else colors.green ) }}
-
   check_pr_conventional_commit:
     if:
-      - {{ not (  calc.commits_conventional.rez  ) }}
+      - {{ not (  lint.pull_request.isValid  ) }}
     run:
       - action: add-comment@v1
         args:
           comment: |
-            **Conventional Commits required**
-            One or more commits in this PR don’t follow the Conventional Commits spec.
-
-            **Subject format**
-            ```
-            type(scope)?: short summary
-            ```
-            Allowed types: `feat`, `fix`, `docs`, `style`, `refactor`, `perf`, `test`, `build`, `ci`, `chore`, `revert`
-
-            **Rules**
-            - Subject line ≤ 72 characters
-            - Optional `scope` in parentheses
-            - Optional `!` if the change is breaking
-            - Alternatively, include a `BREAKING CHANGE:` footer (either `!` or the footer is acceptable)
-
-            See the spec: https://www.conventionalcommits.org/en/v1.0.0/
+            **PR Lint Failed**
             
-            {{ calc.commits_conventional.msg }}
+            {% if lint.pull_request.hasValidTitle %}
+              Title is valid.
+            {% else %}
+              Title must follow Conventional Commit format. Example: `feat: add new payment method`
+            {% endif %}
 
       - action: request-changes@v1
         args:
           comment: |
-            Please fix the non-compliant commit messages (or squash and use a compliant PR title).
+            Please fix PR title and/or commit messages.
 
   # Inform PR authors when they fail to reference Jira tickets in the PR title or description.
 #  label_missing_jira_info:
@@ -102,6 +62,8 @@ calc:
   safe_changes: {{ is.formatting or is.docs or is.tests or is.image }}
   commits_conventional: {{ branch | checkConventionalCommit(pr, env.SEC_TOKEN) }}
 
+lint:
+  pull_request: {{ branch | lintPullRequest(pr, env.SEC_TOKEN) }}
 
 #has:
 #  jira_ticket_in_title: {{ pr.title | includes(regex=r/\b[A-Za-z]+-\d+\b/) }}
