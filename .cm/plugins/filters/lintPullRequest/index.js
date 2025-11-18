@@ -7,12 +7,21 @@ async function lintPullRequest(branch, pr, ghToken, callback) {
     auth: ghToken,
   });
 
-  let hasValidTitle = pr.title.match(/^(feat|fix|chore|docs|style|refactor|perf|test|build|ci):/);
-  let hasErrors = !hasValidTitle;
+  let hasErrors = true;
+
+  let branchName = branch.name;
+
+  let comment = `
+    **PR Lint Failed**
+    
+    
+    
+    See the spec: https://www.conventionalcommits.org/en/v1.0.0/
+  `;
 
   const result = {
     hasErrors,
-    hasValidTitle
+    comment
   }
 
   return callback(null, JSON.stringify(result));

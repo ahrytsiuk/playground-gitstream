@@ -13,13 +13,7 @@ automations:
       - action: add-comment@v1
         args:
           comment: |
-            **PR Lint Failed**
-            
-            {% if not lint.pull_request.hasValidTitle %}
-              PRs title don’t follow the Conventional Commits spec.
-            {% endif %}
-            
-            See the spec: https://www.conventionalcommits.org/en/v1.0.0/
+            {{ lint.pull_request.comment }}
 
       - action: request-changes@v1
         args:
