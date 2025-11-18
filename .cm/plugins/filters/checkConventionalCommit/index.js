@@ -21,7 +21,7 @@ async function checkConventionalCommit(branch, pr, auth, callback) {
 
   const owner = pr.author;
   const repo = pr.repo
-  const pull_number = 4;
+  const pull_number = pr.number;
 
   // const res = await octokit.repos.getContent({
   //   owner,
