@@ -27,6 +27,8 @@ automations:
             - Alternatively, include a `BREAKING CHANGE:` footer (either `!` or the footer is acceptable)
 
             See the spec: https://www.conventionalcommits.org/en/v1.0.0/
+            
+            {{ calc.commits_conventional.msg }}
 
       - action: request-changes@v1
         args:

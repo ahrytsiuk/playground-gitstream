@@ -66,7 +66,7 @@ async function checkConventionalCommit(branch, pr, auth) {
         /^(feat|fix|chore|docs|style|refactor|perf|test|build|ci):/,
     )
   });
-  let newVar = {every: every, str: 's'};
+  let newVar = {every: every, msg: 'Hello World!'};
 
   console.log("Result: " + JSON.stringify(newVar));
 
