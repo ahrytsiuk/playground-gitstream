@@ -6,7 +6,7 @@ triggers:
 automations:
   check_pr_conventional_commit:
     if:
-      - {{ branch | calc.commits_conventional.every }}
+      - {{ calc.commits_conventional.every }}
     run:
       - action: add-comment@v1
         args:
