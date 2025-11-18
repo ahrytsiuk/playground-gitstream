@@ -38,7 +38,7 @@ automations:
 
   check_pr_conventional_commit:
     if:
-      - {{ not (branch | checkConventionalCommit(pr, env.SEC_TOKEN)) }}
+      - {{ not (  (branch | checkConventionalCommit(pr, env.SEC_TOKEN)).rez  ) }}
     run:
       - action: add-comment@v1
         args:

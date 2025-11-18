@@ -66,13 +66,13 @@ async function checkConventionalCommit(branch, pr, auth, callback) {
         /^(feat|fix|chore|docs|style|refactor|perf|test|build|ci):/,
     )
   });
-  let newVar = {every: every, msg: 'Hello World!'};
+  let newVar = {rez: every, msg: 'Hello World!'};
 
   console.log("Result: " + JSON.stringify(newVar));
 
   // return newVar;
 
-  return callback(null, every);
+  return callback(null, newVar);
 }
 
 module.exports = {
