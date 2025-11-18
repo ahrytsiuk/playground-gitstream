@@ -20,7 +20,7 @@ automations:
   # Use LinearB's AI service to add a description to the PR
   linearb_ai_description:
     if:
-      - {{ not (pr.draft or is.bot) }}
+      - {{ not (pr.draft or is.bot_author) }}
     run:
       - action: describe-changes@v1
         args:
