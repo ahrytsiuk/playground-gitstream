@@ -36,6 +36,37 @@ automations:
           label: "{{ calc.etr }} min review"
           color: {{ colors.red if (calc.etr >= 20) else ( colors.yellow if (calc.etr >= 5) else colors.green ) }}
 
+  check_pr_conventional_commit:
+    if:
+      - {{ not calc.commits_conventional.every }}
+    run:
+      - action: add-comment@v1
+        args:
+          comment: |
+            **Conventional Commits required**
+            One or more commits in this PR don’t follow the Conventional Commits spec.
+
+            **Subject format**
+            ```
+            type(scope)?: short summary
+            ```
+            Allowed types: `feat`, `fix`, `docs`, `style`, `refactor`, `perf`, `test`, `build`, `ci`, `chore`, `revert`
+
+            **Rules**
+            - Subject line ≤ 72 characters
+            - Optional `scope` in parentheses
+            - Optional `!` if the change is breaking
+            - Alternatively, include a `BREAKING CHANGE:` footer (either `!` or the footer is acceptable)
+
+            See the spec: https://www.conventionalcommits.org/en/v1.0.0/
+            
+            {{ calc.commits_conventional.msg }}
+
+      - action: request-changes@v1
+        args:
+          comment: |
+            Please fix the non-compliant commit messages (or squash and use a compliant PR title).
+
   # Inform PR authors when they fail to reference Jira tickets in the PR title or description.
 #  label_missing_jira_info:
 #    if:
@@ -69,6 +100,8 @@ automations:
 calc:
   etr: {{ branch | estimatedReviewTime }}
   safe_changes: {{ is.formatting or is.docs or is.tests or is.image }}
+  commits_conventional: {{ branch | checkConventionalCommit(pr, env.SEC_TOKEN) }}
+
 
 #has:
 #  jira_ticket_in_title: {{ pr.title | includes(regex=r/\b[A-Za-z]+-\d+\b/) }}
