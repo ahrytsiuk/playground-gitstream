@@ -6,7 +6,7 @@ triggers:
 automations:
   check_pr_conventional_commit:
     if:
-      - {{ branch | has.commits_conventional.every }}
+      - {{ branch | calc.commits_conventional.every }}
     run:
       - action: add-comment@v1
         args:
@@ -33,5 +33,5 @@ automations:
           comment: |
             Please fix the non-compliant commit messages (or squash and use a compliant PR title).
 
-has:
+calc:
   commits_conventional: {{ branch | checkConventionalCommit(pr, env.SEC_TOKEN) }}

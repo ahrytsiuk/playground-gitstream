@@ -10,7 +10,7 @@
 
 const { Octokit } = require("@octokit/rest");
 
-async function checkConventionalCommit(branch, pr, auth) {
+async function checkConventionalCommit(branch, pr, auth, callback) {
 
   console.log("Tkn: " + auth);
 
@@ -66,12 +66,16 @@ async function checkConventionalCommit(branch, pr, auth) {
         /^(feat|fix|chore|docs|style|refactor|perf|test|build|ci):/,
     )
   });
-  return {every: every, str: 's'};
+  let newVar = {every: every, str: 's'};
+
+  console.log("Result: " + JSON.stringify(newVar));
+
+  return callback(null, newVar)
 }
 
 module.exports = {
   async: true,
-  immediate: true, // Required for use in 'if' conditions
+  // immediate: true, // Required for use in 'if' conditions
   filter: checkConventionalCommit
 }
 
