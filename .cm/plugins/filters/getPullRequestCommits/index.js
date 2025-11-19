@@ -31,5 +31,5 @@ async function getPullRequestCommits(repo, pr, ghToken, callback) {
 module.exports = {
   async: true,
   immediate: true,
-  filter: getCommits
+  filter: getPullRequestCommits
 }
