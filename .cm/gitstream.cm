@@ -43,7 +43,7 @@ pull_request:
     bot_author: {{ pr.author | match(list=bot.users) | some }}
     bot_branch: {{ branch.name | match(list=bot.branches) | some }}
   has:
-    all_commits_conventional: {{ pull_request.commits | reject(attr='author', match(list=bot.users)) | reject(attr='message', regex=merge_regex) | match(regex=conventional_regex) | every }}
+    all_commits_conventional: {{ pull_request.commits | reject(attr='author', match(list=bot.users)) | reject(attr='message', regex=merge_regex) | match(attr='message', regex=conventional_regex) | every }}
 
 conventional_regex: "r/^(feat|fix|build|chore|ci|docs|perf|refactor|revert|style|test)(\\([^)]+\\))?!?:\\s[^\\n]+/"
 merge_regex: "r/^Merge/"
