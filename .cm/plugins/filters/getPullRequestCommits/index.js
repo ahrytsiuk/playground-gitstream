@@ -21,7 +21,7 @@ async function getPullRequestCommits(repo, pr, ghToken, callback) {
       };
     });
 
-    return callback(null, commits);
+    return callback(null, JSON.stringify(commits));
   } catch (error) {
     console.error("Error fetching commits:", error);
     return callback(null, []);
