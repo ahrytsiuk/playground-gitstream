@@ -8,7 +8,7 @@ automations:
 
   lint_pr:
     if:
-      - {{ not pull_request.has_all_commits_conventional }}
+      - {{ true }}
     run:
       - action: add-comment@v1
         args:
@@ -38,11 +38,14 @@ bot_branches:
 
 pull_request:
   commits: {{ repo | getPullRequestCommits(pr, env.SEC_TOKEN) }}
-  non_bot_commits: {{ pull_request.commits | reject(attr='author', list=bot_users) }}
-  non_merge_commits: {{ pull_request.non_bot_commits | reject(attr='message', regex=merge_regex) }}
-  is_bot_author: {{ pr.author | match(list=bot_users) | some }}
-  is_bot_branch: {{ branch.name | match(list=bot_branches) | some }}
-  has_all_commits_conventional: {{ pull_request.non_merge_commits | match(attr='message', regex=conventional_regex) | every }}
+
+#pull_request:
+#  commits: {{ repo | getPullRequestCommits(pr, env.SEC_TOKEN) }}
+#  non_bot_commits: {{ pull_request.commits | reject(attr='author', list=bot_users) }}
+#  non_merge_commits: {{ pull_request.non_bot_commits | reject(attr='message', regex=merge_regex) }}
+#  is_bot_author: {{ pr.author | match(list=bot_users) | some }}
+#  is_bot_branch: {{ branch.name | match(list=bot_branches) | some }}
+#  has_all_commits_conventional: {{ pull_request.non_merge_commits | match(attr='message', regex=conventional_regex) | every }}
 
 conventional_regex: "r/^(feat|fix|build|chore|ci|docs|perf|refactor|revert|style|test)(\\([^)]+\\))?!?:\\s[^\\n]+/"
 merge_regex: "r/^Merge/"
