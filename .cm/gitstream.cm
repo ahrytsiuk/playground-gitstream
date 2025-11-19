@@ -8,12 +8,16 @@ automations:
 
   lint_pr:
     if:
-      - {{ lint.pull_request.hasErrors }}
+      - {{ true }}
     run:
       - action: add-comment@v1
         args:
           comment: |
-            {{ lint.pull_request.comment }}
+            <ul>
+            {% for commit in pull_request.commits %}
+              <li>{{ commit.sha }} {{ commit.message }} {{ commit.author }}</li>
+            {% endfor %}
+            </ul>
 
       - action: request-changes@v1
         args:
@@ -25,5 +29,5 @@ automations:
 # | https://docs.gitstream.cm/how-it-works/#custom-expressions                 |
 # +----------------------------------------------------------------------------+
 
-lint:
-  pull_request: {{ repo | lintPullRequest(branch, pr, env.SEC_TOKEN) }}
+pull_request:
+  commits: {{ repo | getPullRequestCommits(pr, env.SEC_TOKEN) }}
