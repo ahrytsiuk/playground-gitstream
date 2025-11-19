@@ -57,7 +57,7 @@ bot_branches:
 
 pull_request:
   commits: {{ repo | getPullRequestCommits(pr, env.SEC_TOKEN) }}
-  non_bot_commits: {{ pull_request.commits | reject(attr='author', list=bot_users) | list }}
+  non_bot_commits: {{ pull_request.commits | reject(attr='author', list=['github-actions', 'dependabot', 'gitstream-cm']) }}
 
 #pull_request:
 #  commits: {{ repo | getPullRequestCommits(pr, env.SEC_TOKEN) }}
