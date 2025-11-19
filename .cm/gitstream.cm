@@ -30,12 +30,7 @@ automations:
             {% endfor %}
             </ul>
             
-            Non-Bot Commits:
-            <ul>
-            {% for commit in pull_request.non_bot_commits %}
-              <li>{{ commit.sha }} {{ commit.message }} {{ commit.author }}</li>
-            {% endfor %}
-            </ul>
+            All Commits Conventional: {{ pull_request.has_all_commits_conventional }}
             
 
       - action: request-changes@v1
@@ -57,7 +52,7 @@ bot_branches:
 
 pull_request:
   commits: {{ repo | getPullRequestCommits(pr, env.SEC_TOKEN) }}
-  non_bot_commits: {{ pull_request.commits | reject(attr='author', list=['github-actions', 'dependabot', 'gitstream-cm']) }}
+  has_all_commits_conventional: {{ pull_request.commits | reject(attr='author', list=['github-actions', 'dependabot', 'gitstream-cm']) | match(attr='message', regex=conventional_regex) | every }}
 
 #pull_request:
 #  commits: {{ repo | getPullRequestCommits(pr, env.SEC_TOKEN) }}
