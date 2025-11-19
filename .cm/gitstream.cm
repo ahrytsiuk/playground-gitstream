@@ -8,7 +8,7 @@ automations:
 
   lint_pr:
     if:
-      - {{ not pull_request.has.all_commits_conventional }}
+      - {{ not pull_request.has_all_commits_conventional }}
     run:
       - action: add-comment@v1
         args:
@@ -29,24 +29,20 @@ automations:
 # | https://docs.gitstream.cm/how-it-works/#custom-expressions                 |
 # +----------------------------------------------------------------------------+
 
-bot:
-  users:
-    - github-actions
-    - dependabot
-    - gitstream-cm
-  branches:
-    - dependabot/
+bot_users:
+  - github-actions
+  - dependabot
+  - gitstream-cm
+bot_branches:
+  - dependabot/
 
 pull_request:
   commits: {{ repo | getPullRequestCommits(pr, env.SEC_TOKEN) }}
-  non_bot_commits: {{ pull_request.commits | reject(attr='author', list=bot.users) }}
+  non_bot_commits: {{ pull_request.commits | reject(attr='author', list=bot_users) }}
   non_merge_commits: {{ pull_request.non_bot_commits | reject(attr='message', regex=merge_regex) }}
-
-  is:
-    bot_author: {{ pr.author | match(list=bot.users) | some }}
-    bot_branch: {{ branch.name | match(list=bot.branches) | some }}
-  has:
-    all_commits_conventional: {{ pull_request.non_merge_commits | match(attr='message', regex=conventional_regex) | every }}
+  is_bot_author: {{ pr.author | match(list=bot.users) | some }}
+  is_bot_branch: {{ branch.name | match(list=bot_branches) | some }}
+  has_all_commits_conventional: {{ pull_request.non_merge_commits | match(attr='message', regex=conventional_regex) | every }}
 
 conventional_regex: "r/^(feat|fix|build|chore|ci|docs|perf|refactor|revert|style|test)(\\([^)]+\\))?!?:\\s[^\\n]+/"
 merge_regex: "r/^Merge/"
