@@ -26,4 +26,4 @@ automations:
 # +----------------------------------------------------------------------------+
 
 lint:
-  pull_request: {{ branch | lintPullRequest(pr, env.SEC_TOKEN) }}
+  pull_request: {{ repo | lintPullRequest(branch, pr, env.SEC_TOKEN) }}
