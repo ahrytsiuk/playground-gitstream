@@ -13,11 +13,30 @@ automations:
       - action: add-comment@v1
         args:
           comment: |
+            Bot Users:
+            {% for bot_user in bot_users %}
+              <li>{{ bot_user }}</li>
+            {% endfor %}
+            
+            Bot Branches:
+            {% for bot_branch in bot_branches %}
+              <li>{{ bot_branch }}</li>
+            {% endfor %}
+            
+            PR Commits:
             <ul>
             {% for commit in pull_request.commits %}
               <li>{{ commit.sha }} {{ commit.message }} {{ commit.author }}</li>
             {% endfor %}
             </ul>
+            
+            Non-Bot Commits:
+            <ul>
+            {% for commit in pull_request.non_bot_commits %}
+              <li>{{ commit.sha }} {{ commit.message }} {{ commit.author }}</li>
+            {% endfor %}
+            </ul>
+            
 
       - action: request-changes@v1
         args:
@@ -38,6 +57,7 @@ bot_branches:
 
 pull_request:
   commits: {{ repo | getPullRequestCommits(pr, env.SEC_TOKEN) }}
+  non_bot_commits: {{ pull_request.commits | reject(attr='author', list=bot_users) }}
 
 #pull_request:
 #  commits: {{ repo | getPullRequestCommits(pr, env.SEC_TOKEN) }}
