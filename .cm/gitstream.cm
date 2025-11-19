@@ -32,7 +32,7 @@ automations:
             
             Non-Bot Commits:
             <ul>
-            {% for commit in pull_request.commits %}
+            {% for commit in pull_request.non_bot_commits %}
               <li>{{ commit.sha }} {{ commit.message }} {{ commit.author }}</li>
             {% endfor %}
             </ul>
