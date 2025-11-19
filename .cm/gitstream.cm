@@ -8,7 +8,7 @@ automations:
 
   lint_pr:
     if:
-      - {{ true }}
+      - {{ not pull_request.has.all_commits_conventional }}
     run:
       - action: add-comment@v1
         args:
@@ -29,5 +29,21 @@ automations:
 # | https://docs.gitstream.cm/how-it-works/#custom-expressions                 |
 # +----------------------------------------------------------------------------+
 
+bot:
+  users:
+    - github-actions
+    - dependabot
+    - gitstream-cm
+  branches:
+    - dependabot/
+
 pull_request:
   commits: {{ repo | getPullRequestCommits(pr, env.SEC_TOKEN) }}
+  is:
+    bot_author: {{ pr.author | match(list=bot.users) | some }}
+    bot_branch: {{ branch.name | match(list=bot.branches) | some }}
+  has:
+    all_commits_conventional: {{ pull_request.commits | reject(attr='author', match(list=bot.users)) | reject(attr='message', regex=has.merge_regex) | match(regex=conventional_regex) | every }}
+
+conventional_regex: "r/^(feat|fix|build|chore|ci|docs|perf|refactor|revert|style|test)(\\([^)]+\\))?!?:\\s[^\\n]+/"
+merge_regex: "r/^Merge/"

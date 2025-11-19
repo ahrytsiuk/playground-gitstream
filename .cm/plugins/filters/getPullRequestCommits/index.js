@@ -12,6 +12,7 @@ async function getPullRequestCommits(repo, pr, ghToken, callback) {
       owner: repo.owner,
       repo: repo.name,
       pull_number: pr.number,
+      per_page: 100
     });
     const commits = listCommits.map(item => {
       return {
