@@ -58,10 +58,8 @@ bot_branches:
   - dependabot/
 
 pull_request:
-  commits: |
-    {{ repo | getPullRequestCommits(pr, env.SEC_TOKEN) }}
-  non_bot_commits: |
-    {{ pull_request.commits | reject(attr='author', list=['github-actions', 'dependabot', 'gitstream-cm']) | dump }}
+  commits: {{ repo | getPullRequestCommits(pr, env.SEC_TOKEN) }}
+  non_bot_commits: {{ pull_request.commits | reject(attr='author', list=['github-actions', 'dependabot', 'gitstream-cm']) | dump }}
   has_all_commits_conventional: {{ pull_request.commits | reject(attr='author', list=['github-actions', 'dependabot', 'gitstream-cm']) | reject(attr='message', regex=merge_regex) | match(attr='message', regex=conventional_regex) | every }}
 
 #pull_request:
