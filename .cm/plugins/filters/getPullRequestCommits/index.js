@@ -14,6 +14,9 @@ async function getPullRequestCommits(repo, pr, ghToken, callback) {
       pull_number: pr.number,
       per_page: 100
     });
+
+    console.log(`Successfully fetched ${listCommits.length} commits.`);
+
     const commits = listCommits.map(item => {
       return {
         sha: item.sha,
