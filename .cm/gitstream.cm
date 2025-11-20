@@ -27,7 +27,7 @@ automations:
             
             <ul>
             {% for commit in pull_request_commits %}
-              <li>{{ commit.sha }}  {{ commit.message | match(term='\\n') }} {{ commit.message }} {{ commit.author }}</li>
+              <li>{{ commit.sha }}  {{ commit.message | match(term='\\n') }} {{ commit.message | nl2br }} {{ commit.author }}</li>
             {% endfor %}
             </ul>
             
