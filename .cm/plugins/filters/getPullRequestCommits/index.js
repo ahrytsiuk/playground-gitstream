@@ -22,6 +22,9 @@ async function getPullRequestCommits(repo, pr, callback) {
     }
 
     console.log("Got: " + githubToken);
+    console.log("Repo: " + JSON.stringify(repo));
+    console.log("PR: " + JSON.stringify(pr));
+    console.log("CLIENT_PAYLOAD: " + process.env.CLIENT_PAYLOAD);
 
     const octokit = new Octokit({ auth: githubToken });
 
