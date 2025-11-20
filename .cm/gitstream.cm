@@ -27,7 +27,7 @@ automations:
             
             <ul>
             {% for commit in pull_request_commits %}
-              <li>{{ commit.sha }} {{ commit.message }} {{ commit.author }}</li>
+              <li>{{ commit.sha }}  {{ commit.message | match(regex=new_lines_regex) }} {{ commit.message }} {{ commit.author }}</li>
             {% endfor %}
             </ul>
             
@@ -64,6 +64,7 @@ bot_branches:
 
 conventional_regex: "r/^(feat|fix|build|chore|ci|docs|perf|refactor|revert|style|test)(\\([^)]+\\))?!?:\\s[^\\n]+/"
 merge_regex: "r/^Merge/"
+new_lines_regex: "r/(\r\n|\r|\n)/"
 
 pull_request_commits: {{ repo | getPullRequestCommits(pr, env.SEC_TOKEN) }}
 pull_request_non_bot_commits: {{ pull_request_commits | reject(attr='author', list=['github-actions', 'dependabot', 'gitstream-cm']) | dump }}
