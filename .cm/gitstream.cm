@@ -51,11 +51,6 @@ automations:
             
             {{ yyy.non_merge_commits_full | dump(2) }} 
             
-            <ul>
-            {% for commit in yyy.non_merge_commits_full %}
-              <li>{{ commit.sha }} {{ commit.message }} {{ commit.author }}</li>
-            {% endfor %}
-            </ul>
             
             
             
@@ -91,7 +86,7 @@ xxx:
   non_merge_commits: {{ pull_request.non_bot_commits | match(attr='message', regex=merge_regex) | dump }}
 
 yyy:
-  non_merge_commits_full: {{ pull_request.commits | reject(attr='author', list=['github-actions', 'dependabot', 'gitstream-cm']) | reject(attr='message', regex=merge_regex) | dump }}
+  non_merge_commits_full: {{ pull_request.commits | reject(attr='author', list=['github-actions', 'dependabot', 'gitstream-cm']) | reject(attr='message', regex=merge_regex) | some }}
 
 
 #pull_request:
