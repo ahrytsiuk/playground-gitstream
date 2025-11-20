@@ -36,7 +36,7 @@ automations:
             {{ pull_request_commits | dump(2) }} 
             
             <ul>
-            {% for commit in pull_request_non_merge_commits %}
+            {% for commit in pull_request_commits %}
               <li>{{ commit.sha }} {{ commit.message }} {{ commit.author }}</li>
             {% endfor %}
             </ul>
