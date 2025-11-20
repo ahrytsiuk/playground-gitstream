@@ -27,7 +27,7 @@ automations:
             
             <ul>
             {% for commit in pull_request_commits %}
-              <li>{{ commit.sha }} {{ commit.message | nl2br }} {{ commit.author }}</li>
+              <li>{{ commit.sha }} {{ commit.message }} {{ commit.author }}</li>
             {% endfor %}
             </ul>
             
@@ -35,7 +35,7 @@ automations:
             
             <ul>
             {% for commit in pull_request_non_bot_commits %}
-              <li>{{ commit.sha }} {{ commit.message | nl2br }} {{ commit.author }}</li>
+              <li>{{ commit.sha }} {{ commit.message }} {{ commit.author }}</li>
             {% endfor %}
             </ul>
             
@@ -43,7 +43,7 @@ automations:
             
             <ul>
             {% for commit in pull_request_non_merge_commits %}
-              <li>{{ commit.sha }} {{ commit.message | nl2br }} {{ commit.author }}</li>
+              <li>{{ commit.sha }} {{ commit.message }} {{ commit.author }}</li>
             {% endfor %}
             </ul>
             

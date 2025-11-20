@@ -20,7 +20,7 @@ async function getPullRequestCommits(repo, pr, ghToken, callback) {
     const commits = listCommits.map(item => {
       return {
         sha: item.sha,
-        message: item.commit.message,
+        message: item.commit.message.replace(/\n/g, "\\n"),
         author: item.commit.author.name
       };
     });
