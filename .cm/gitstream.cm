@@ -86,7 +86,7 @@ xxx:
   non_merge_commits: {{ pull_request.non_bot_commits | match(attr='message', regex=merge_regex) | dump }}
 
 yyy:
-  non_merge_commits_full: {{ ( pull_request.commits | reject(attr='author', list=['github-actions', 'dependabot', 'gitstream-cm']) | reject(attr='message', regex=merge_regex) ) | dump }}
+  non_merge_commits_full: {{ ( pull_request.commits | reject(attr='message', regex=merge_regex) ) | dump }}
 
 
 #pull_request:
