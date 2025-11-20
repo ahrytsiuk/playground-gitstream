@@ -8,7 +8,7 @@ automations:
 
   lint_pr:
     if:
-      - {{ true }}
+      - {{ not has.all_commits_conventional }}
     run:
       - action: add-comment@v1
         args:
@@ -73,3 +73,10 @@ pull_request_non_bot_commits: {{ pull_request_commits | reject(attr='author', li
 pull_request_non_merge_commits: {{ pull_request_commits | reject(attr='message', regex=merge_regex) | dump }}
 pull_request_conventional_commits: {{ pull_request_commits | reject(attr='author', list=['github-actions', 'dependabot', 'gitstream-cm']) | reject(attr='message', regex=merge_regex) | dump }}
 pull_request_commits_all_conventional: {{ pull_request_commits | reject(attr='author', list=['github-actions', 'dependabot', 'gitstream-cm']) | map(attr='message') | replace('\\n', '\n') | reject(regex=merge_regex) | dump }}
+
+has:
+  conventional_regex: "r/^(feat|fix|build|chore|ci|docs|perf|refactor|revert|style|test)(\\([^)]+\\))?!?:\\s[^\\n]+/"
+  merge_regex: "r/^Merge/"
+
+  # Every non-merge commit message begins with a Conventional Commit subject
+  all_commits_conventional: {{ pull_request_commits | reject(attr='author', list=['github-actions', 'dependabot', 'gitstream-cm']) | map(attr='message') | replace('\\n', '\n') | reject(regex=has.merge_regex) | match(regex=has.conventional_regex) | every }}
