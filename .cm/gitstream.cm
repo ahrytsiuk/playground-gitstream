@@ -67,10 +67,13 @@ bot_users:
 bot_branches:
   - dependabot/
 
+conventional_regex: "r/^(feat|fix|build|chore|ci|docs|perf|refactor|revert|style|test)(\\([^)]+\\))?!?:\\s[^\\n]+/"
+merge_regex: "r/^Merge/"
+
 pull_request:
   commits: {{ repo | getPullRequestCommits(pr, env.SEC_TOKEN) }}
   non_bot_commits: {{ pull_request.commits | reject(attr='author', list=['github-actions', 'dependabot', 'gitstream-cm']) | dump }}
-  non_merge_commits: {{ pull_request.non_bot_commits | reject(attr='message', regex=merge_regex) | dump }}
+  non_merge_commits: {{ pull_request.non_bot_commits | match(attr='message', regex=merge_regex) | dump }}
   has_all_commits_conventional: {{ pull_request.commits | reject(attr='author', list=['github-actions', 'dependabot', 'gitstream-cm']) | reject(attr='message', regex=merge_regex) | match(attr='message', regex=conventional_regex) | every }}
 
 #pull_request:
@@ -81,5 +84,3 @@ pull_request:
 #  is_bot_branch: {{ branch.name | match(list=bot_branches) | some }}
 #  has_all_commits_conventional: {{ pull_request.non_merge_commits | match(attr='message', regex=conventional_regex) | every }}
 
-conventional_regex: "r/^(feat|fix|build|chore|ci|docs|perf|refactor|revert|style|test)(\\([^)]+\\))?!?:\\s[^\\n]+/"
-merge_regex: "r/^Merge/"
