@@ -38,8 +38,11 @@ automations:
             </ul>
             
             Non-Merge Commits:
+            
+            {{ pull_request.non_merge_commits | dump(2) }} 
+            
             <ul>
-            {% for commit in pull_request.non_merge_commits | list %}
+            {% for commit in pull_request.non_merge_commits %}
               <li>{{ commit.sha }} {{ commit.message }} {{ commit.author }}</li>
             {% endfor %}
             </ul>
