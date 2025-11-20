@@ -47,6 +47,16 @@ automations:
             {% endfor %}
             </ul>
             
+            Non-Merge Commits Full:
+            
+            {{ xxx.non_merge_commits_full | dump(2) }} 
+            
+            <ul>
+            {% for commit in xxx.non_merge_commits_full %}
+              <li>{{ commit.sha }} {{ commit.message }} {{ commit.author }}</li>
+            {% endfor %}
+            </ul>
+            
             
             
             All Commits Conventional: {{ pull_request.has_all_commits_conventional }}
@@ -79,7 +89,7 @@ pull_request:
 
 xxx:
   non_merge_commits: {{ pull_request.non_bot_commits | match(attr='message', regex=merge_regex) | dump }}
-#  non_merge_commits_full: {{ pull_request.commits | reject(attr='author', list=['github-actions', 'dependabot', 'gitstream-cm']) | reject(attr='message', regex=merge_regex) | match(attr='message', regex=conventional_regex) | dump }}
+  non_merge_commits_full: {{ pull_request.commits | reject(attr='author', list=['github-actions', 'dependabot', 'gitstream-cm']) | reject(attr='message', regex=merge_regex) | dump }}
 
 
 #pull_request:
