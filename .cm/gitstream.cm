@@ -52,4 +52,4 @@ merge_regex: "r/^Merge/"
 
 pull_request_commits: {{ repo | getPullRequestCommits(pr, env.SEC_TOKEN) }}
 
-pull_request_non_merge_commits: {{ pull_request_commits | reject(attr='message', regex=merge_regex) | dump }}
+pull_request_non_merge_commits: {{ repo | getPullRequestCommits(pr, env.SEC_TOKEN) | reject(attr='message', regex=merge_regex) | dump }}
