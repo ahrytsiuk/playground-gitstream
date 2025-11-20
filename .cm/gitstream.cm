@@ -54,6 +54,8 @@ automations:
               <li>{{ commit.sha }} {{ commit.message }} {{ commit.author }}</li>
             {% endfor %}
             </ul>
+            
+            {{ pull_request_commits_all_conventional }}
 
 bot_users:
   - github-actions
@@ -70,3 +72,4 @@ pull_request_commits: {{ repo | getPullRequestCommits(pr, env.SEC_TOKEN) }}
 pull_request_non_bot_commits: {{ pull_request_commits | reject(attr='author', list=['github-actions', 'dependabot', 'gitstream-cm']) | dump }}
 pull_request_non_merge_commits: {{ pull_request_commits | reject(attr='message', regex=merge_regex) | dump }}
 pull_request_conventional_commits: {{ pull_request_commits | reject(attr='author', list=['github-actions', 'dependabot', 'gitstream-cm']) | reject(attr='message', regex=merge_regex) | dump }}
+pull_request_commits_all_conventional: {{ pull_request_commits | reject(attr='author', list=['github-actions', 'dependabot', 'gitstream-cm']) | map(attr='message') | replace('\\n', '\n') | reject(regex=merge_regex) | dump }}
