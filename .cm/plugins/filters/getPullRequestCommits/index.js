@@ -1,10 +1,9 @@
 const {Octokit} = require("@octokit/rest");
 
-async function getPullRequestCommits(repo, pr, ghToken, callback) {
+async function getPullRequestCommits(repo, pr, callback) {
 
   const octokit = new Octokit({
     request: {fetch},
-    auth: ghToken,
   });
 
   try {
