@@ -2,9 +2,7 @@ const {Octokit} = require("@octokit/rest");
 
 async function getPullRequestCommits(repo, pr, callback) {
 
-  const octokit = new Octokit({
-    request: {fetch},
-  });
+  const octokit = new Octokit();
 
   try {
     const listCommits = await octokit.paginate(octokit.rest.pulls.listCommits, {
