@@ -39,7 +39,7 @@ automations:
             
             Non-Merge Commits:
             
-            {{ pull_request.non_merge_commits | dump(2) }} 
+            {{ xxx.non_merge_commits | dump(2) }} 
             
             <ul>
             {% for commit in xxx.non_merge_commits %}
@@ -49,7 +49,7 @@ automations:
             
             Non-Merge Commits2:
             
-            {{ pull_request.non_merge_commits2 | dump(2) }} 
+            {{ xxx.non_merge_commits2 | dump(2) }} 
             
             <ul>
             {% for commit in xxx.non_merge_commits2 %}
