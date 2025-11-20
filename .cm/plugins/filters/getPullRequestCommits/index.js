@@ -1,6 +1,9 @@
 const {Octokit} = require("@octokit/rest");
 
 const getClientPayloadParsed = () => {
+
+  console.log("CLIENT_PAYLOAD: " + process.env.CLIENT_PAYLOAD);
+
   const afterOneParsing = JSON.parse(process.env.CLIENT_PAYLOAD || '{}');
 
   if (typeof afterOneParsing === 'string') {
@@ -14,24 +17,23 @@ async function getPullRequestCommits(repo, pr, callback) {
 
   try {
     const clientPayload = getClientPayloadParsed();
-    const { githubToken, headSha: commit_sha, owner, repo } = clientPayload;
+
+    const githubToken = clientPayload.githubToken;
+    const owner_name = clientPayload.owner;
+    const repo_name = clientPayload.repo;
+    const pull_number = clientPayload.prContext.number;
 
     if (!githubToken || typeof githubToken !== 'string') {
       console.log(`missing githubToken or bad format`);
       return callback(null, '[]');
     }
 
-    console.log("Got: " + githubToken);
-    console.log("Repo: " + JSON.stringify(repo));
-    console.log("PR: " + JSON.stringify(pr));
-    console.log("CLIENT_PAYLOAD: " + process.env.CLIENT_PAYLOAD);
-
     const octokit = new Octokit({ auth: githubToken });
 
     const listCommits = await octokit.paginate(octokit.rest.pulls.listCommits, {
-      owner: repo.owner,
-      repo: repo.name,
-      pull_number: pr.number,
+      owner: owner_name,
+      repo: repo_name,
+      pull_number: pull_number,
       per_page: 100
     });
 
