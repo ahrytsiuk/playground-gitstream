@@ -24,7 +24,7 @@ automations:
             {% endfor %}
             
             PR Commits:
-            {{ pull_request_commits | dump(2) }} 
+            
             <ul>
             {% for commit in pull_request_commits %}
               <li>{{ commit.sha }} {{ commit.message }} {{ commit.author }}</li>
@@ -32,8 +32,6 @@ automations:
             </ul>
             
             Non-Merge Commits:
-            
-            {{ pull_request_commits | dump(2) }} 
             
             <ul>
             {% for commit in pull_request_commits %}
