@@ -25,29 +25,20 @@ automations:
             
             PR Commits:
             <ul>
-            {% for commit in pull_request.commits %}
+            {% for commit in pull_request_commits %}
               <li>{{ commit.sha }} {{ commit.message }} {{ commit.author }}</li>
             {% endfor %}
             </ul>
             
             Non-Merge Commits:
             
-            {{ pull_request.non_merge_commits | dump(2) }} 
+            {{ pull_request_non_merge_commits | dump(2) }} 
             
             <ul>
-            {% for commit in pull_request.non_merge_commits %}
+            {% for commit in pull_request_non_merge_commits %}
               <li>{{ commit.sha }} {{ commit.message }} {{ commit.author }}</li>
             {% endfor %}
             </ul>
-            
-            
-            All Commits Conventional: {{ pull_request.has_all_commits_conventional }}
-
-
-      - action: request-changes@v1
-        args:
-          comment: |
-            Please fix PR title and/or commit messages.
 
 bot_users:
   - github-actions
@@ -59,18 +50,6 @@ bot_branches:
 conventional_regex: "r/^(feat|fix|build|chore|ci|docs|perf|refactor|revert|style|test)(\\([^)]+\\))?!?:\\s[^\\n]+/"
 merge_regex: "r/^Merge/"
 
-pull_request:
-  commits: {{ repo | getPullRequestCommits(pr, env.SEC_TOKEN) }}
-#  non_bot_commits: {{ pull_request.commits | reject(attr='author', list=['github-actions', 'dependabot', 'gitstream-cm']) | dump }}
-  non_merge_commits: {{ pull_request.commits | reject(attr='message', regex=merge_regex) | dump }}
-  has_all_commits_conventional: {{ pull_request.commits | reject(attr='author', list=['github-actions', 'dependabot', 'gitstream-cm']) | reject(attr='message', regex=merge_regex) | match(attr='message', regex=conventional_regex) | every }}
+pull_request_commits: {{ repo | getPullRequestCommits(pr, env.SEC_TOKEN) }}
 
-
-#pull_request:
-#  commits: {{ repo | getPullRequestCommits(pr, env.SEC_TOKEN) }}
-#  non_bot_commits: {{ pull_request.commits | reject(attr='author', list=bot_users) }}
-#  non_merge_commits: {{ pull_request.non_bot_commits | reject(attr='message', regex=merge_regex) }}
-#  is_bot_author: {{ pr.author | match(list=bot_users) | some }}
-#  is_bot_branch: {{ branch.name | match(list=bot_branches) | some }}
-#  has_all_commits_conventional: {{ pull_request.non_merge_commits | match(attr='message', regex=conventional_regex) | every }}
-
+pull_request_non_merge_commits: {{ pull_request_commits | reject(attr='message', regex=merge_regex) | dump }}
