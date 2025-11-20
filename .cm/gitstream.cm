@@ -24,6 +24,7 @@ automations:
             {% endfor %}
             
             PR Commits:
+            {{ pull_request_commits | dump(2) }} 
             <ul>
             {% for commit in pull_request_commits %}
               <li>{{ commit.sha }} {{ commit.message }} {{ commit.author }}</li>
@@ -32,7 +33,7 @@ automations:
             
             Non-Merge Commits:
             
-            {{ pull_request_non_merge_commits | dump(2) }} 
+            {{ pull_request_commits | dump(2) }} 
             
             <ul>
             {% for commit in pull_request_non_merge_commits %}
@@ -52,4 +53,4 @@ merge_regex: "r/^Merge/"
 
 pull_request_commits: {{ repo | getPullRequestCommits(pr, env.SEC_TOKEN) }}
 
-pull_request_non_merge_commits: {{ repo | getPullRequestCommits(pr, env.SEC_TOKEN) | reject(attr='message', regex=merge_regex) | dump }}
+#pull_request_non_merge_commits: {{ repo | getPullRequestCommits(pr, env.SEC_TOKEN) | reject(attr='message', regex=merge_regex) | dump }}
