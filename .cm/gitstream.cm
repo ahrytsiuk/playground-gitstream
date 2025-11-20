@@ -34,7 +34,7 @@ automations:
             Non-Merge Commits:
             
             <ul>
-            {% for commit in pull_request_commits %}
+            {% for commit in pull_request_non_merge_commits %}
               <li>{{ commit.sha }} {{ commit.message }} {{ commit.author }}</li>
             {% endfor %}
             </ul>
@@ -50,5 +50,4 @@ conventional_regex: "r/^(feat|fix|build|chore|ci|docs|perf|refactor|revert|style
 merge_regex: "r/^Merge/"
 
 pull_request_commits: {{ repo | getPullRequestCommits(pr, env.SEC_TOKEN) }}
-
-#pull_request_non_merge_commits: {{ repo | getPullRequestCommits(pr, env.SEC_TOKEN) | reject(attr='message', regex=merge_regex) | dump }}
+pull_request_non_merge_commits: {{ repo | getPullRequestCommits(pr, env.SEC_TOKEN) | reject(attr='message', regex=merge_regex) | dump }}
