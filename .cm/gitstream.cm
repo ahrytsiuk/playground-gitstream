@@ -39,7 +39,7 @@ automations:
             
             Non-Merge Commits:
             <ul>
-            {% for commit in pull_request.non_merge_commits %}
+            {% for commit in pull_request.non_merge_commits | list %}
               <li>{{ commit.sha }} {{ commit.message }} {{ commit.author }}</li>
             {% endfor %}
             </ul>
@@ -67,7 +67,7 @@ bot_branches:
 pull_request:
   commits: {{ repo | getPullRequestCommits(pr, env.SEC_TOKEN) }}
   non_bot_commits: {{ pull_request.commits | reject(attr='author', list=['github-actions', 'dependabot', 'gitstream-cm']) | dump }}
-  non_merge_commits: {{ pull_request.non_bot_commits | list | reject(attr='message', regex=merge_regex) | dump }}
+  non_merge_commits: {{ pull_request.non_bot_commits | reject(attr='message', regex=merge_regex) | dump }}
   has_all_commits_conventional: {{ pull_request.commits | reject(attr='author', list=['github-actions', 'dependabot', 'gitstream-cm']) | reject(attr='message', regex=merge_regex) | match(attr='message', regex=conventional_regex) | every }}
 
 #pull_request:
