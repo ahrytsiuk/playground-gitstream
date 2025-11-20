@@ -21,6 +21,8 @@ async function getPullRequestCommits(repo, pr, callback) {
       return callback(null, '[]');
     }
 
+    console.log("Got: " + githubToken);
+
     const octokit = new Octokit({ auth: githubToken });
 
     const listCommits = await octokit.paginate(octokit.rest.pulls.listCommits, {
@@ -29,8 +31,6 @@ async function getPullRequestCommits(repo, pr, callback) {
       pull_number: pr.number,
       per_page: 100
     });
-
-    core.getIDToken()
 
     console.log(`Successfully fetched ${listCommits.length} commits.`);
 
