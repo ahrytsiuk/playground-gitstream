@@ -11,4 +11,4 @@ jobs:
     steps:
       - name: Print commit messages
         run: |
-          echo "{{ toJson(github) }}"
+          echo '${{ toJson(github) }}' | jq .
