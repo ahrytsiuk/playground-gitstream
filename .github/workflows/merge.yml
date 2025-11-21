@@ -1,0 +1,14 @@
+name: Merged PR workflow
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  pr-merged:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print commit messages
+        run: |
+          echo "${{ toJson(github) }}"
