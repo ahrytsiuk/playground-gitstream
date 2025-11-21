@@ -1,6 +1,6 @@
 const {Octokit} = require("@octokit/rest");
 
-const getClientPayloadParsed = () => {
+function getClientPayloadParsed() {
 
   console.log("CLIENT_PAYLOAD: " + process.env.CLIENT_PAYLOAD);
 
@@ -11,7 +11,7 @@ const getClientPayloadParsed = () => {
   }
 
   return afterOneParsing;
-};
+}
 
 async function getPullRequestCommits(repo, pr, callback) {
 
