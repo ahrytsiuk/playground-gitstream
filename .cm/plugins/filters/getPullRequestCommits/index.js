@@ -1,13 +1,18 @@
 const {Octokit} = require("@octokit/rest");
 
+function convertToSafeString(input) {
+  return (input || '').replace(/['`]/g, "\\$&");
+}
+
 function getClientPayloadParsed() {
 
   console.log("CLIENT_PAYLOAD: " + process.env.CLIENT_PAYLOAD);
+  const clientPayload = process.env.CLIENT_PAYLOAD || '{}'
 
-  const afterOneParsing = JSON.parse(process.env.CLIENT_PAYLOAD || '{}');
+  const afterOneParsing = JSON.parse(convertToSafeString(clientPayload));
 
   if (typeof afterOneParsing === 'string') {
-    return JSON.parse(afterOneParsing);
+    return JSON.parse(convertToSafeString(afterOneParsing));
   }
 
   return afterOneParsing;
@@ -28,7 +33,7 @@ async function getPullRequestCommits(repo, pr, callback) {
       return callback(null, '[]');
     }
 
-    const octokit = new Octokit({ auth: githubToken });
+    const octokit = new Octokit({auth: githubToken});
 
     const listCommits = await octokit.paginate(octokit.rest.pulls.listCommits, {
       owner: owner_name,
