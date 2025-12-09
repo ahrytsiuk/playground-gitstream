@@ -19,9 +19,10 @@ runs:
       env:
         WORKING_DIRECTORY_PATH: ${{ github.workspace }}
     - uses: actions/github-script@v8
-      working-directory: ${{ github.action_path }}
       with:
         script: |
           const yaml = require('yaml');
           
           const content = fs.readFileSync(`${process.env.WORKING_DIRECTORY_PATH}/sample.yaml`, 'utf8');
+      env:
+        WORKING_DIRECTORY_PATH: ${{ github.action_path }}
