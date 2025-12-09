@@ -13,14 +13,6 @@ jobs:
       - name: Print commit messages
         run: |
           echo '${{ toJson(github) }}' | jq .
-      - name: Node info
-        uses: actions/github-script@v8
-        with:
-          script: |
-            console.log('Platform: ', process.platform);
-            console.log('Node version: ', process.version);
-            console.log('execArgv: ', process.execArgv);
-            console.log('argv: ', process.argv);
       - name: Custom code
         uses: ./.github/actions/retag
         with:
