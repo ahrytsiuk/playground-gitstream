@@ -12,3 +12,21 @@ jobs:
       - name: Print commit messages
         run: |
           echo '${{ toJson(github) }}' | jq .
+      - name: Custom code
+        uses: actions/github-script@v8
+        with:
+          script: |
+            interface Message {
+              from: string;
+              text: string;
+            }
+
+            function printMessage(message: Message): void {
+                                             console.log(`${message.from}: ${message.text}`);
+            }
+
+            const msg: Message = {
+              from: "Alice",
+              text: "Hello, World!"
+            };
+            printMessage(msg);
