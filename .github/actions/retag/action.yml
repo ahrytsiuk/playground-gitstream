@@ -1,6 +1,11 @@
 name: retag
 author: andriih@backbase.com
 description: retag
+inputs:
+  working-directory-path:
+    description: 'Path relative to the repository root, in which commands should be executed.'
+    required: false
+    default: '.'
 runs:
   using: composite
   steps:
@@ -14,3 +19,5 @@ runs:
       working-directory: ${{ github.action_path }}
       run: |
         node index.js
+      env:
+        WORKING_DIRECTORY_PATH: ${{ inputs.working-directory-path }}

@@ -23,3 +23,5 @@ jobs:
             console.log('argv: ', process.argv);
       - name: Custom code
         uses: ./.github/actions/retag
+        with:
+          working-directory-path: ${{ env.WORKING_DIRECTORY_PATH }}
