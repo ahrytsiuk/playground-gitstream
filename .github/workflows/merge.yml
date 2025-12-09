@@ -9,6 +9,7 @@ jobs:
   pr-merged:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
       - name: Print commit messages
         run: |
           echo '${{ toJson(github) }}' | jq .
