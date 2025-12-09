@@ -1,7 +1,9 @@
 const yaml = require('yaml')
+const fs = require('fs')
 
 function main() {
-  let docs = yaml.parseAllDocuments(`${process.env.WORKING_DIRECTORY_PATH}/sample.yaml`);
+  const content = fs.readFileSync(`${process.env.WORKING_DIRECTORY_PATH}/sample.yaml`, 'utf8');
+  let docs = yaml.parseAllDocuments(content);
   for (let doc of docs) {
     const asJson = doc.toJS();
     console.log("Document as JSON: ", asJson);
