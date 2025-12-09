@@ -1,0 +1,18 @@
+name: retag
+author: andriih@backbase.com
+description: retag
+runs:
+  using: composite
+  steps:
+    - uses: actions/setup-node@v4
+      with:
+        node-version: '24.x'
+    - run: npm ci
+    - uses: actions/github-script@v8
+      with:
+        script: |
+          const yaml = require('yaml')
+          
+          const script = require('.github/workflows/intex.js')
+          
+          script({github, context, core, yaml})

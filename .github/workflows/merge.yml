@@ -22,8 +22,4 @@ jobs:
             console.log('execArgv: ', process.execArgv);
             console.log('argv: ', process.argv);
       - name: Custom code
-        uses: actions/github-script@v8
-        with:
-          script: |
-            const script = require('.github/workflows/intex.js')
-            script({github, context, core})
+        uses: ./.github/actions/retag
