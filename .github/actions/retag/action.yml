@@ -20,4 +20,4 @@ runs:
       run: |
         node index.js
       env:
-        WORKING_DIRECTORY_PATH: ${{ inputs.working-directory-path }}
+        WORKING_DIRECTORY_PATH: ${{ github.workspace }}
