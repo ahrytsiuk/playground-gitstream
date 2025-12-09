@@ -16,17 +16,5 @@ jobs:
         uses: actions/github-script@v8
         with:
           script: |
-            interface Message {
-              from: string;
-              text: string;
-            }
-
-            function printMessage(message: Message): void {
-                                             console.log(`${message.from}: ${message.text}`);
-            }
-
-            const msg: Message = {
-              from: "Alice",
-              text: "Hello, World!"
-            };
-            printMessage(msg);
+            console.log('Platform: ', process.platform);
+            console.log('Node version: ', process.version);
