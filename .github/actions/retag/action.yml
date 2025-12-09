@@ -13,6 +13,4 @@ runs:
     - shell: bash
       working-directory: ${{ github.action_path }}
       run: |
-        const yaml = require('yaml')
-        const script = require('./index.js')
-        script({github, context, core, yaml})
+        node index.js

@@ -1,4 +1,7 @@
-module.exports = async ({github, context, core, yaml}) => {
-  core.info("Running something at the moment");
-  return context.actor;
+const yaml = require('yaml')
+
+function main() {
+  console.log("Running something at the moment");
 }
+
+main()
