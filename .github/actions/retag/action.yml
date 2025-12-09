@@ -10,11 +10,9 @@ runs:
     - shell: bash
       working-directory: ${{ github.action_path }}
       run: npm ci
-    - uses: actions/github-script@v8
-      with:
-        script: |
-          const yaml = require('yaml')
-          
-          const script = require('${{ github.action_path }}/index.js')
-          
-          script({github, context, core, yaml})
+    - shell: bash
+      working-directory: ${{ github.action_path }}
+      run: |
+        const yaml = require('yaml')
+        const script = require('./index.js')
+        script({github, context, core, yaml})
