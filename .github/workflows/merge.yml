@@ -24,5 +24,5 @@ jobs:
         uses: actions/github-script@v8
         with:
           script: |
-            const script = require('./intex.js')
+            const script = require('.github/workflows/intex.js')
             script({github, context, core})
