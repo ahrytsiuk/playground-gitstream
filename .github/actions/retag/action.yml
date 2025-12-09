@@ -13,6 +13,6 @@ runs:
         script: |
           const yaml = require('yaml')
           
-          const script = require('.github/workflows/intex.js')
+          const script = require('${{ github.action_path }}/index.js')
           
           script({github, context, core, yaml})
