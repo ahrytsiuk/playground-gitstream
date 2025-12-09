@@ -7,6 +7,8 @@ runs:
     - uses: actions/setup-node@v4
       with:
         node-version: '24.x'
+    - shell: bash
+      working-directory: ${{ github.action_path }}
       run: npm ci
     - uses: actions/github-script@v8
       with:
