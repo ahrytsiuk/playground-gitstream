@@ -18,7 +18,9 @@ jobs:
           script: |
             console.log('Platform: ', process.platform);
             console.log('Node version: ', process.version);
-            
+            console.log('execArgv: ', process.execArgv);
+            console.log('argv: ', process.argv);
+
             interface Message {
               from: string;
               text: string;
@@ -32,4 +34,5 @@ jobs:
               from: "Alice",
               text: "Hello, World!"
             };
+
             printMessage(msg);
